@@ -203,7 +203,14 @@ def lift' (e : A' ≃ₗ[R] A) (h : ∀ x y, e ⁅x, y⁆ = e x * e y - e y * e 
         }
     invFun := fun l => {
         __ := e.symm.toLinearMap ∘ₗ l.toLinearMap
-        map_lie' := by sorry
+        map_lie' := by
+          simp
+          intros x y
+          have inj: Function.Injective e := Equiv.injective e
+          rw [Function.Injective] at inj
+          apply inj
+          rw [h, @LieRing.of_associative_ring_bracket]
+          simp
     }
     left_inv := by
       rw [Function.LeftInverse]
